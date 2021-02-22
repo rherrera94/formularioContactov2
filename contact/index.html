@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de contacto</title>
+    <link rel="stylesheet" href="master.css">
+</head>
+<body>
+    <main class="centro">
+        <section class="titulo">
+            <h1> Dejanos tus datos asi nos podemos contactar con vos:</h1>
+        </section>
+        <section class="contacto">
+            <form action="/formContact" method="post" class="fcontact">
+                <div class="cNombre">
+                    <div class="datoPedir">
+                        <p>Nombre:</p>
+                    </div>
+                    <div class="datoEnviar">
+                        <input type="text" name="nombre" placeholder="Nombre" class="texto">
+                    </div>
+                </div>
+                <div class="cNombre">
+                    <div class="datoPedir">
+                        <p>Apellido:</p>
+                    </div>
+                    <div class="datoEnviar">
+                        <input type="text" name="apellido" placeholder="Apellido" class="texto">
+                    </div>
+                </div>
+                <div class="cNombre">
+                    <div class="datoPedir">
+                        <p>Email:</p>
+                    </div>
+                    <div class="datoEnviar">
+                        <input type="email" name="mail" placeholder="Email" class="texto">
+                    </div>
+                </div>
+                <div class="cNombre">
+                    <div class="datoPedir">
+                        <p>Celular:</p>
+                    </div>
+                    <div class="datoEnviar"m>
+                        <input type="text" name="celular" placeholder="N° de celular" class="texto">
+                    </div>
+                </div>
+                <div class="cNombre">
+                    <div class="datoPedir">
+                        <p>Mensaje:</p>
+                    </div>
+                    <div class="datoEnviar">
+                        <textarea name="mensaje"  class="mensajeMail">Dejenos aquí su mensaje</textarea>
+                    </div>
+                </div>
+                <div class="envioD">
+                    <button type="submit" class="boton">Enviar</button>
+                </div>
+            </form>
+                
+        </section>
+    </main>
+</body>
+</html>
