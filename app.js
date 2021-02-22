@@ -116,11 +116,11 @@ app.get('/usuarios/:id/mensajes',async (req,res)=>{
         }
         res.status(200).send(registros);
     }
-    catch(error)
-    if(error.message!= 'No se han encontrado mensajes de ese usuario.'){
-        res.status(413).send({"Mensaje": "error inesperado"});
-        return;    
-    }{
+    catch(error){
+        if(error.message!= 'No se han encontrado mensajes de ese usuario.'){
+            res.status(413).send({"Mensaje": "error inesperado"});
+            return;    
+        }        
         res.status(413).send({"Mensaje": error.message});
     }
 });
