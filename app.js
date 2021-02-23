@@ -182,7 +182,24 @@ app.get('/usuarios/:id/mensajes/:idm',async (req,res)=>{
     }
 });
 
-
+app.delete('/mensajes/:id', async (req, res)=> {
+    var mensajeid = req.params.id;
+    
+    try{
+        let busqueda= await qy('select * from mensaje where id=?',mensajeid);
+        if (busqueda.length==0) throw new Error('id de mensaje no encontrado');
+        
+        let registro= await qy('delete from mensaje where id=?',mensajeid);
+        res.status(200).send({"mensaje":"Mensaje eliminado"});
+    }
+    catch(error){
+        if (error.message!='id de mensaje no encontrado'){
+            res.status(413).send({"mensaje":"error inesperado"});
+            return;
+        }
+        res.status(413).send({"mensaje":"error inesperado"});
+    }
+});
 /*********************************************************************/
 
 app.post('/formContact',async (req,res)=>{
