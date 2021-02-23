@@ -35,18 +35,26 @@ const qy= util.promisify(conexion.query).bind(conexion); //permitira el uso de a
 /*********************************************************************/
 
 app.get('/mensajes',async (req,res)=>{
+    //busco todos los mensajes
     try{
+    
         let registros=await qy ('SELECT * FROM mensaje');
+        
         if (registros.length==0){
+            
             throw new Error ('No se han encontrado mensajes.');
-            return;
+                    
         }
+        
         res.status(200).send(registros);
     }
     catch(error){
+
         if(error.message!= 'No se han encontrado mensajes.'){
+        
             res.status(413).send({"Mensaje": "error inesperado"});
             return;    
+        
         }
         
         res.status(413).send({"Mensaje": error.message});
@@ -54,12 +62,18 @@ app.get('/mensajes',async (req,res)=>{
 });
 
 app.get('/usuarios',async (req,res)=>{
+    //busco todos los usuarios registrados
     try{
+
         let registros=await qy ('SELECT * FROM usuario');
+        
         if (registros.length==0){
-             res.status(413).send({"Mensaje":'No se han encontrado usuarios.'});
+            //en el caso de que no haya usuarios registrados tiro error
+            res.status(413).send({"Mensaje":'No se han encontrado usuarios.'});
              return;
+        
         }
+
         res.status(200).send(registros);
     }
     catch(error){
@@ -70,8 +84,11 @@ app.get('/usuarios',async (req,res)=>{
 });
 
 app.get('/mensajes/:id',async (req,res)=>{
+    // busco mensajes por numero de id de mensajes
     try{
+
         let registros=await qy ('SELECT * FROM mensaje WHERE id=?',req.params.id);
+        
         if (registros.length==0) {
      
             throw new Error ('No se ha encontrado el mensaje solicitado.');
@@ -80,9 +97,12 @@ app.get('/mensajes/:id',async (req,res)=>{
         res.status(200).send(registros);
     }
     catch(error){
+        
         if(error.message!= 'No se ha encontrado el mensaje solicitado.'){
+            
             res.status(413).send({"Mensaje": "error inesperado"});
-            return;    
+            return;
+
         }  
         res.status(413).send({"Mensaje": error.message});
     }
@@ -90,25 +110,33 @@ app.get('/mensajes/:id',async (req,res)=>{
 
 app.get('/usuarios/:id',async (req,res)=>{
     try{
+        // busco usuario por numero de id
         let registros=await qy ('SELECT * FROM usuario WHERE id=?',req.params.id);
+        
         if (registros.length==0){
+        
             throw new Error ('No se han encontrado usuarios con ese id.');
             
         } 
         res.status(200).send(registros);
     }
     catch(error){
+        
         if(error.message!= 'No se han encontrado usuarios con ese id.'){
+            
             res.status(413).send({"Mensaje": "error inesperado"});
             return;    
+        
         }
         res.status(413).send({"Mensaje": error.message});
     }
 });
 
 app.get('/usuarios/:id/mensajes',async (req,res)=>{
+    
     try{
         let registros=await qy ('SELECT * FROM mensaje WHERE persona_id=?',req.params.id);
+        
         if (registros.length==0) {
             
             throw new Error ('No se han encontrado mensajes de ese usuario.');
@@ -117,27 +145,38 @@ app.get('/usuarios/:id/mensajes',async (req,res)=>{
         res.status(200).send(registros);
     }
     catch(error){
+        
         if(error.message!= 'No se han encontrado mensajes de ese usuario.'){
+        
             res.status(413).send({"Mensaje": "error inesperado"});
             return;    
+        
         }        
+        
         res.status(413).send({"Mensaje": error.message});
     }
 });
 
 app.get('/usuarios/:id/mensajes/:idm',async (req,res)=>{
+    // id: es id de usuario. idm: id del mensaje que se busca.
     try{
+
         let registros=await qy ('SELECT * FROM mensaje WHERE persona_id=? and id=?',[req.params.id, req.params.idm]);
+        
         if (registros.length==0){
+            //si no se encuentran mensajes con ese id de mensaje y de persona entonces se tira error
             throw new Error('No se han encontrado mensajes con ese id de ese usuario.');
             
         } 
         res.status(200).send(registros);
     }
     catch(error){
+
         if(error.message!= 'No se han encontrado mensajes con ese id de ese usuario.'){
+        
             res.status(413).send({"Mensaje": "error inesperado"});
             return;    
+        
         }
         res.status(413).send({"Mensaje": error.message});
     }
@@ -162,7 +201,7 @@ app.post('/formContact',async (req,res)=>{
         let registros=await qy ('SELECT * FROM usuario WHERE mail=?',req.body.mail);
         
         if (registros.length!=0) {
-
+            //si el mail ya esta registrado solo se procede a guardar el mensaje
             let regdos= await qy('insert into mensaje(mensaje,persona_id) values(?,?)',[req.body.mensaje,registros[0].id]);
             
         }else{
