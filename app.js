@@ -197,7 +197,7 @@ app.delete('/mensajes/:id', async (req, res)=> {
             res.status(413).send({"mensaje":"error inesperado"});
             return;
         }
-        res.status(413).send({"mensaje":"error inesperado"});
+        res.status(413).send({"mensaje":error.message});
     }
 });
 /*********************************************************************/
