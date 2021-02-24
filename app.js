@@ -87,7 +87,8 @@ app.get('/mensajes/:id',async (req,res)=>{
     // busco mensajes por numero de id de mensajes
     try{
 
-        let registros=await qy ('SELECT * FROM mensaje WHERE id=?',req.params.id);
+        let query='SELECT * FROM mensaje WHERE id=?';
+        let registros=await qy (query,req.params.id);
         
         if (registros.length==0) {
      
@@ -110,8 +111,10 @@ app.get('/mensajes/:id',async (req,res)=>{
 
 app.get('/usuarios/:id',async (req,res)=>{
     try{
+
         // busco usuario por numero de id
-        let registros=await qy ('SELECT * FROM usuario WHERE id=?',req.params.id);
+        let query='SELECT * FROM usuario WHERE id=?';
+        let registros=await qy (query,req.params.id);
         
         if (registros.length==0){
         
@@ -135,7 +138,9 @@ app.get('/usuarios/:id',async (req,res)=>{
 app.get('/usuarios/:id/mensajes',async (req,res)=>{
     
     try{
-        let registros=await qy ('SELECT * FROM mensaje WHERE persona_id=?',req.params.id);
+
+        let query= 'SELECT * FROM mensaje WHERE persona_id=?';
+        let registros=await qy (query,req.params.id);
         
         if (registros.length==0) {
             
@@ -161,7 +166,8 @@ app.get('/usuarios/:id/mensajes/:idm',async (req,res)=>{
     // id: es id de usuario. idm: id del mensaje que se busca.
     try{
 
-        let registros=await qy ('SELECT * FROM mensaje WHERE persona_id=? and id=?',[req.params.id, req.params.idm]);
+        let query='SELECT * FROM mensaje WHERE persona_id=? and id=?';
+        let registros=await qy (query,[req.params.id, req.params.idm]);
         
         if (registros.length==0){
             //si no se encuentran mensajes con ese id de mensaje y de persona entonces se tira error
@@ -186,10 +192,12 @@ app.delete('/mensajes/:id', async (req, res)=> {
     var mensajeid = req.params.id;
     
     try{
-        let busqueda= await qy('select * from mensaje where id=?',mensajeid);
+        let query='select * from mensaje where id=?';
+        let busqueda= await qy(query,mensajeid);
         if (busqueda.length==0) throw new Error('id de mensaje no encontrado');
         
-        let registro= await qy('delete from mensaje where id=?',mensajeid);
+        let queryDelete='delete from mensaje where id=?';
+        let registro= await qy(queryDelete,mensajeid);
         res.status(200).send({"mensaje":"Mensaje eliminado"});
     }
     catch(error){
